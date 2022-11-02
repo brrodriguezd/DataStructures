@@ -1,8 +1,8 @@
 #include "Nodo.h"
-#include "DoublyLinkedList.h"
-#include "DoublyLinkedListTail.h"
-#include "LinkedList.h"
-#include "LinkedListTail.h"
+#include "listasnoordenadas/DoublyLinkedList.h"
+#include "listasnoordenadas/DoublyLinkedListTail.h"
+#include "listasnoordenadas/LinkedList.h"
+#include "listasnoordenadas/LinkedListTail.h"
 
 /***
 DoublyLinkedListTail<T> lista;
