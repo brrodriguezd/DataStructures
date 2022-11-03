@@ -1,11 +1,11 @@
-#include "listasnoordenadas/DoublyLinkedList.h"
-#include "listasnoordenadas/DoublyLinkedListTail.h"
 #include "listasnoordenadas/LinkedList.h"
 #include "listasnoordenadas/LinkedListTail.h"
+#include "listasordenadas/LinkedListTail_O.h"
+#include "listasordenadas/LinkedList_O.h"
 
-/***
-DoublyLinkedListTail<T>
-DoublyLinkedList<T>
+/***                     
+NO ORDENADAS:
+
 LinkedListTail<T>
 LinkedList<T>
 PushFront(T)
@@ -21,4 +21,18 @@ AddBefore(Node*, T)
 AddAfter(Node*, T)
 Display()
 DisplayBackwards()
+
+ORDENADAS:
+
+LinkedListTail_O<T>
+LinkedList_O<T>
+Insert(T)
+PopFront()
+PopBack()
+Delete(T)
+T TopFront()
+T TopBack()
+Node* Find(T)
+bool Empty()
+Display()
         ***/
