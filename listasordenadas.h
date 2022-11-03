@@ -1,7 +1,7 @@
-#include "listasordenadas/DoublyLinkedList_O.h"
 #include "listasordenadas/DoublyLinkedListTail_O.h"
-#include "listasordenadas/LinkedList_O.h"
+#include "listasordenadas/DoublyLinkedList_O.h"
 #include "listasordenadas/LinkedListTail_O.h"
+#include "listasordenadas/LinkedList_O.h"
 
 /***
 DoublyLinkedListTail_O<T>
