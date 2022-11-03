@@ -1,15 +1,37 @@
 #include "../Nodo.h"
 
-template <class T> class LinkedList {
+template <class T = int> class DoublyLinkedList_O {
 private:
   Nodo<T> *head;
 
 public:
-  LinkedList() { this->head = NULL; }
-  void PushFront(T dato) {
+  DoublyLinkedList_O() { this->head = NULL; }
+
+  void Insert(T dato) {
     Nodo<T> *nodo = new Nodo<T>(dato);
-    nodo->setNext(this->head);
-    this->head = nodo;
+    if (!this->head) {
+      this->head = nodo;
+      return;
+    }
+    if (!(this->head->getData() < dato)) {
+      this->head->setPrev(nodo);
+      nodo->setNext(this->head);
+      this->head = nodo;
+      return;
+    }
+    Nodo<T> *recorrer = this->head;
+    while (recorrer->getNext()) {
+      if (!(recorrer->getNext()->getData() < dato)) {
+        break;
+      }
+      recorrer = recorrer->getNext();
+    }
+    nodo->setNext(recorrer->getNext());
+    recorrer->setNext(nodo);
+    nodo->setPrev(recorrer);
+    if (nodo->getNext()) {
+      nodo->getNext()->setPrev(nodo);
+    }
   }
   T TopFront() {
     if (!this->head) {
@@ -22,17 +44,8 @@ public:
       throw std::runtime_error("está vacio");
     }
     this->head = this->head->getNext();
-  }
-  void PushBack(T dato) {
-    if (!this->head) {
-      this->PushFront(dato);
-    } else {
-      Nodo<T> *nodo = new Nodo<T>(dato);
-      Nodo<T> *recorrer = this->head;
-      while (recorrer->getNext()) {
-        recorrer = recorrer->getNext();
-      }
-      recorrer->setNext(nodo);
+    if (this->head) {
+      this->head->setPrev(NULL);
     }
   }
   T TopBack() {
@@ -61,7 +74,7 @@ public:
   }
   Nodo<T> *Find(T dato) {
     Nodo<T> *recorrer = this->head;
-    while (recorrer) {
+    while (recorrer->getData()) {
       if (recorrer->getData() == dato) {
         return recorrer;
       }
@@ -74,46 +87,29 @@ public:
       throw std::runtime_error("está vacio");
     }
     if (this->head->getData() == dato) {
-      this->head = this->head->getNext();
+      this->PopFront();
       return;
     }
     Nodo<T> *recorrer = this->head;
     while (recorrer->getNext()) {
       if (recorrer->getNext()->getData() == dato) {
-        recorrer->setNext(recorrer->getNext()->getNext());
+        if (recorrer->getNext()->getNext()) {
+          recorrer->getNext()->getNext()->setPrev(recorrer);
+          recorrer->setNext(recorrer->getNext()->getNext());
+          return;
+        }
+        recorrer->setNext(NULL);
         return;
       }
       recorrer = recorrer->getNext();
     }
-    throw std::runtime_error("No existe el dato");
+    throw std::runtime_error("No se encontro el dato");
   }
   bool Empty() {
     if (!this->head) {
       return true;
     }
     return false;
-  }
-  void AddBefore(Nodo<T> *nodo, T dato) {
-    Nodo<T> *data = new Nodo<T>(dato);
-    data->setNext(nodo);
-    if (nodo == this->head) {
-      this->head = data;
-      return;
-    }
-    Nodo<T> *recorrer = this->head;
-    while (recorrer) {
-      if (recorrer->getNext() == nodo) {
-        recorrer->setNext(data);
-        return;
-      }
-      recorrer = recorrer->getNext();
-    }
-    throw std::runtime_error("No existe el dato");
-  }
-  void AddAfter(Nodo<T> *nodo, T dato) {
-    Nodo<T> *data = new Nodo<T>(dato);
-    data->setNext(nodo->getNext());
-    nodo->setNext(data);
   }
   void Display() {
     if (this->head) {
@@ -126,12 +122,16 @@ public:
     std::cout << '\n';
   }
   void DisplayBackwards() {
-    LinkedList<T> listainv;
-    Nodo<T> *recorrer = this->head;
-    while (recorrer) {
-      listainv.PushFront(recorrer->getData());
-      recorrer = recorrer->getNext();
+    if (this->head) {
+      Nodo<T> *recorrer = this->head;
+      while (recorrer->getNext()) {
+        recorrer = recorrer->getNext();
+      }
+      while (recorrer) {
+        std::cout << recorrer->getData() << " ";
+        recorrer = recorrer->getPrev();
+      }
     }
-    listainv.Display();
+    std::cout << '\n';
   }
 };

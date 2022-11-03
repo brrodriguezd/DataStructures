@@ -1,14 +1,13 @@
-#include "Nodo.h"
 #include "listasnoordenadas/DoublyLinkedList.h"
 #include "listasnoordenadas/DoublyLinkedListTail.h"
 #include "listasnoordenadas/LinkedList.h"
 #include "listasnoordenadas/LinkedListTail.h"
 
 /***
-DoublyLinkedListTail<T> lista;
-DoublyLinkedList<T> lista;
-LinkedListTail<T>lista;
-LinkedList<T> lista;
+DoublyLinkedListTail<T>
+DoublyLinkedList<T>
+LinkedListTail<T>
+LinkedList<T>
 PushFront(T)
 T TopFront()
 PopFront()
@@ -17,7 +16,7 @@ T TopBack()
 PopBack()
 Node* Find(T)
 Erase(T)
-bool Empty()//
+bool Empty()
 AddBefore(Node*, T)
 AddAfter(Node*, T)
 Display()

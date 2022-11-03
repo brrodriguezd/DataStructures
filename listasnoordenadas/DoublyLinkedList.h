@@ -1,4 +1,5 @@
 #include "../Nodo.h"
+#include <stdexcept>
 
 template <class T> class DoublyLinkedList {
 private:
@@ -76,7 +77,7 @@ public:
       }
       recorrer = recorrer->getNext();
     }
-    return NULL;
+    throw std::runtime_error("no está en la lista");
   }
   void Erase(T dato) {
     if (!this->head) {

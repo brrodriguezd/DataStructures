@@ -72,7 +72,7 @@ public:
       }
       recorrer = recorrer->getNext();
     }
-    return NULL;
+    throw std::runtime_error("no está en la lista");
   }
   void Erase(T dato) {
     if (!this->head) {
