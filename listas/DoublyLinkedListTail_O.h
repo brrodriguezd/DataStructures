@@ -1,38 +1,42 @@
-#include "../Nodo.h"
+#include "../nodos.h"
 
-template <class T = int> class LinkedListTail_O {
+template <class T> class DoublyLinkedListTail_O {
 private:
-  Nodo<T> *head;
-  Nodo<T> *tail;
+  NodoPrev<T> *head;
+  NodoPrev<T> *tail;
 
 public:
-  LinkedListTail_O() {
+  DoublyLinkedListTail_O() {
     this->head = NULL;
     this->tail = NULL;
   }
   void Insert(T dato) {
-    Nodo<T> *nodo = new Nodo<T>(dato);
+    NodoPrev<T> *nodoprev = new NodoPrev<T>(dato);
     if (!this->tail) {
-      this->tail = this->head = nodo;
+      this->tail = this->head = nodoprev;
       return;
     }
     if (!(this->head->getData() < dato)) {
-      nodo->setNext(this->head);
-      this->head = nodo;
+      this->head->setPrev(nodoprev);
+      nodoprev->setNext(this->head);
+      this->head = nodoprev;
       return;
     }
-    Nodo<T> *recorrer = this->head;
+    NodoPrev<T> *recorrer = this->head;
     while (recorrer->getNext()) {
       if (!(recorrer->getNext()->getData() < dato)) {
         break;
       }
       recorrer = recorrer->getNext();
     }
-    nodo->setNext(recorrer->getNext());
-    recorrer->setNext(nodo);
-    if (!nodo->getNext()) {
-      this->tail = nodo;
+    nodoprev->setNext(recorrer->getNext());
+    nodoprev->setPrev(recorrer);
+    recorrer->setNext(nodoprev);
+    if (nodoprev->getNext()) {
+      nodoprev->getNext()->setPrev(nodoprev);
+      return;
     }
+    this->tail = nodoprev;
   }
   T TopFront() {
     if (!this->head) {
@@ -47,31 +51,29 @@ public:
     this->head = this->head->getNext();
     if (!this->head) {
       this->tail = NULL;
+      return;
     }
+    this->head->setPrev(NULL);
   }
   T TopBack() {
     if (!this->tail) {
-      throw std::runtime_error("está vacio");
+      throw std::runtime_error("está vacia");
     }
     return this->tail->getData();
   }
   void PopBack() {
-    if (!this->head) {
-      throw std::runtime_error("está vacio");
+    if (!this->tail) {
+      throw std::runtime_error("está vacia");
     }
-    if (this->tail == this->head) {
-      this->tail = this->head = NULL;
+    this->tail = this->tail->getPrev();
+    if (!this->tail) {
+      this->head = NULL;
       return;
     }
-    Nodo<T> *recorrer = this->head;
-    while (recorrer->getNext()->getNext()) {
-      recorrer = recorrer->getNext();
-    }
-    recorrer->setNext(NULL);
-    this->tail = recorrer;
+    this->tail->setNext(NULL);
   }
-  Nodo<T> *Find(T dato) {
-    Nodo<T> *recorrer = this->head;
+  NodoPrev<T> *Find(T dato) {
+    NodoPrev<T> *recorrer = this->head;
     while (recorrer) {
       if (recorrer->getData() == dato) {
         return recorrer;
@@ -84,11 +86,11 @@ public:
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
-    Nodo<T> *recorrer = this->head;
     if (this->head->getData() == dato) {
       this->PopFront();
       return;
     }
+    NodoPrev<T> *recorrer = this->head;
     while (recorrer->getNext()) {
       if (recorrer->getNext()->getData() == dato) {
         if (recorrer->getNext() == this->tail) {
@@ -96,6 +98,7 @@ public:
           this->tail = recorrer;
           return;
         }
+        recorrer->getNext()->getNext()->setPrev(recorrer);
         recorrer->setNext(recorrer->getNext()->getNext());
         return;
       }
@@ -109,10 +112,9 @@ public:
     }
     return false;
   }
-
   void Display() {
     if (this->head) {
-      Nodo<T> *recorrer = this->head;
+      NodoPrev<T> *recorrer = this->head;
       while (recorrer) {
         std::cout << recorrer->getData() << " ";
         recorrer = recorrer->getNext();
@@ -120,14 +122,14 @@ public:
     }
     std::cout << '\n';
   }
-  /*
   void DisplayBackwards() {
-    LinkedListTail_O<T> listainv;
-    Nodo<T> *recorrer = this->head;
-    while (recorrer) {
-      listainv.PushFront(recorrer->getData());
-      recorrer = recorrer->getNext();
+    if (this->tail) {
+      NodoPrev<T> *recorrer = this->tail;
+      while (recorrer) {
+        std::cout << recorrer->getData() << " ";
+        recorrer = recorrer->getPrev();
+      }
     }
-    listainv.Display();
-  }*/
+    std::cout << '\n';
+  }
 };
