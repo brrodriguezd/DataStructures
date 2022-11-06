@@ -1,3 +1,4 @@
+#pragma once
 #include "listas/DoublyLinkedList.h"
 #include "listas/DoublyLinkedListTail.h"
 #include "listas/DoublyLinkedListTail_O.h"

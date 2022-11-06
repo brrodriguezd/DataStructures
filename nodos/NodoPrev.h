@@ -1,4 +1,3 @@
-#pragma once
 #include "Nodo.h"
 
 template <class T> class NodoPrev : public Nodo<T> {

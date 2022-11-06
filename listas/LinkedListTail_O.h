@@ -120,7 +120,6 @@ public:
     }
     std::cout << '\n';
   }
-  
-  void DisplayBackwards() {
-  }
+
+  void DisplayBackwards() {}
 };
