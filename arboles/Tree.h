@@ -13,12 +13,15 @@ public:
   }
   Tree(NodoArbol<T> *nodoarbol = NULL) { this->root = nodoarbol; }
 
+  int height() { return height(this->root); }
   int height(NodoArbol<T> *tree) {
     if (!tree) {
       return 0;
     }
     return 1 + std::max(height(tree->getLeft()), height(tree->getRight()));
   }
+
+  int size() { return size(this->root); }
   int size(NodoArbol<T> *tree) {
     if (!tree) {
       return 0;
@@ -73,7 +76,7 @@ public:
     lista.PushBack(tree);
     while (!lista.Empty()) {
       auto dato = lista.TopFront();
-      std::cout << dato->getData()<<" ";
+      std::cout << dato->getData() << " ";
       lista.PopFront();
       if (dato->getLeft()) {
         lista.PushBack(dato->getLeft());

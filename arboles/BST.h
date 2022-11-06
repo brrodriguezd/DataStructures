@@ -1,12 +1,8 @@
 #include "../listas.h"
-#include "../nodos.h"
 #include "Tree.h"
 
 template <class T> class BST : public Tree<T> {
 private:
-public:
-  BST(NodoArbol<T> *nodo = NULL) : Tree<T>{nodo} {}
-  NodoArbol<T> *Find(T dato) { return Find(dato, this->root); }
   NodoArbol<T> *Find(T dato, NodoArbol<T> *root) {
     if (!root) {
       throw std::runtime_error("está vacia");
@@ -28,25 +24,11 @@ public:
       }
     }
   }
-  NodoArbol<T> *Next(NodoArbol<T> *nodo) {
-    if (nodo->getRight()) {
-      return LeftDescendant(nodo->getRight());
-    } else {
-      try {
-        return RightAncestor(nodo);
-      } catch (std::runtime_error &e) {
-        std::cerr << "no hay siguiente";
-      };
-    }
-  }
-  LinkedList<T> RangeSearch(T x, T y, NodoArbol<T> *root = NULL) {
+  LinkedListTail<NodoArbol<T> *> RangeSearch(T x, T y, NodoArbol<T> *root) {
     if (!root) {
-      root = this->root;
-      if (!root) {
-        throw std::runtime_error("está vacia");
-      }
+      throw std::runtime_error("está vacia");
     }
-    LinkedList<NodoArbol<T>> lista;
+    LinkedListTail<NodoArbol<T> *> lista;
     NodoArbol<T> *nodo = Find(x, root);
     while (nodo.getData() < y) {
       if (nodo.getData() >= x) {
@@ -56,23 +38,56 @@ public:
     }
     return lista;
   }
-  void Insert(T dato, NodoArbol<T> *root = NULL) {
+  void Insert(T dato, NodoArbol<T> *root) {
     NodoArbol<T> *insertar = new NodoArbol<T>(dato);
     if (!root) {
-      if (!this->root) {
-        this->root = insertar;
-        return;
-      }
-      root = this->root;
+      root = this->root = insertar;
+      return;
     }
     NodoArbol<T> *nodo = Find(dato, root);
     insertar->setParent(nodo);
-    if(nodo->getData() < dato){
-        nodo->setRight(insertar);
-    }else{
-        nodo->setLeft(insertar);
+    if (nodo->getData() < dato) {
+      nodo->setRight(insertar);
+    } else {
+      nodo->setLeft(insertar);
     }
   }
+public:
+  BST(NodoArbol<T> *nodo = NULL) : Tree<T>{nodo} {}
+  NodoArbol<T> *Find(T dato) { return Find(dato, this->root); }
+
+  NodoArbol<T> *Next(NodoArbol<T> *nodo) {
+    if (nodo->getRight()) {
+      return LeftDescendant(nodo->getRight());
+    } else {
+      try {
+        return RightAncestor(nodo);
+      } catch (std::runtime_error &e) {
+        throw std::runtime_error("no hay siguiente");
+      };
+    }
+  }
+  // LinkedList -> Devuelve con el orden invertido
+  LinkedListTail<NodoArbol<T> *> RangeSearch(T x, T y) {
+    return RangeSearch(x, y, this->root);
+  }
+  
+  void Insert(T dato) { return Insert(dato, this->root); }
+  
+  void Delete(NodoArbol<T> *nodo) {
+    if (!nodo->getRight()) {
+      if (nodo->getLeft()) {
+        nodo = nodo->getLeft();
+        return;
+      }
+      nodo = this->root = NULL;
+      return;
+    }
+    NodoArbol<T> *desc = Next(nodo);
+    nodo->setDato(desc->getData());
+    *desc = *(desc->getRight());
+  }
+
   NodoArbol<T> *RightAncestor(NodoArbol<T> *nodo) {
     if (nodo->getData() < nodo->getParent()->getData()) {
       return nodo;

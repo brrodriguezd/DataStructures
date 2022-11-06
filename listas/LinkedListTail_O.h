@@ -11,14 +11,14 @@ public:
     this->tail = NULL;
   }
   void Insert(T dato) {
-    NodoNext<T> *nodonext = new NodoNext<T>(dato);
+    NodoNext<T> *nodo = new NodoNext<T>(dato);
     if (!this->tail) {
-      this->tail = this->head = nodonext;
+      this->tail = this->head = nodo;
       return;
     }
     if (!(this->head->getData() < dato)) {
-      nodonext->setNext(this->head);
-      this->head = nodonext;
+      nodo->setNext(this->head);
+      this->head = nodo;
       return;
     }
     NodoNext<T> *recorrer = this->head;
@@ -28,10 +28,10 @@ public:
       }
       recorrer = recorrer->getNext();
     }
-    nodonext->setNext(recorrer->getNext());
-    recorrer->setNext(nodonext);
-    if (!nodonext->getNext()) {
-      this->tail = nodonext;
+    nodo->setNext(recorrer->getNext());
+    recorrer->setNext(nodo);
+    if (!nodo->getNext()) {
+      this->tail = nodo;
     }
   }
   T TopFront() {
