@@ -1,4 +1,3 @@
-#include "nodos.h"
 #include "listas.h"
 
 int main() {
