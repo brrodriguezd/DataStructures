@@ -1,19 +1,16 @@
 #include "arboles.h"
 #include "listas.h"
-#include <iostream>
 
 int main() {
-  BST<int> arbol;
-  arbol.Insert(5);
-  arbol.Insert(2);
-  arbol.Insert(8);
-  arbol.Insert(1);
-  arbol.Insert(4);
-  arbol.Insert(6);
-  arbol.Insert(10);
-  arbol.Insert(7);
-  arbol.RotateRight(arbol.Find(5));
-  arbol.RotateLeft(arbol.Find(2));
+  AVL<int> arbol;
+  arbol.AVLinsert(5);
+  arbol.AVLinsert(2);
+  arbol.AVLinsert(8);
+  arbol.AVLinsert(1);
+  arbol.AVLinsert(4);
+  arbol.AVLinsert(6);
+  arbol.AVLinsert(10);
+  arbol.AVLinsert(7);
   arbol.inOrderTraversal();
   std::cout<<'\n';
   arbol.preOrderTraversal();

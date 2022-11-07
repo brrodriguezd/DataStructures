@@ -1,5 +1,3 @@
-#include "../listas.h"
-#include "../nodos.h"
 #include "BST.h"
 
 template <class T> class AVL : public BST<T> {
@@ -7,7 +5,7 @@ protected:
 public:
   void AVLinsert(T dato) {
     BST<T>::Insert(dato, this->root);
-    NodoArbol<T> *nodo = Find(dato);
+    NodoArbol<T> *nodo = BST<T>::Find(dato);
     Rebalance(nodo);
   }
   void Rebalance(NodoArbol<T> *nodo) {
@@ -18,25 +16,35 @@ public:
     if (nodo->getRight()->getHeight() > nodo->getLeft()->getHeight() + 1) {
       RebalanceLeft(nodo);
     }
-    nodo->setHeight(Height(nodo));
+    nodo->setHeight(Tree<T>::height(nodo));
   }
   void RebalanceRight(NodoArbol<T> *nodo) {
     auto subn = nodo->getLeft();
     if (subn->getRight()->getHeight() > subn->getLeft()->getHeight()) {
-      RotateLeft(subn);
+      BST<T>::RotateLeft(subn);
     }
-    RotateRight(subn);
+    BST<T>::RotateRight(subn);
   }
   void RebalanceLeft(NodoArbol<T> *nodo) {
     auto subn = nodo->getRight();
     if (subn->getRight()->getHeight() > subn->getRight()->getHeight()) {
-      RotateRight(subn);
+      BST<T>::RotateRight(subn);
     }
-    RotateLeft(subn);
+    BST<T>::RotateLeft(subn);
   }
   void AVLdelete(NodoArbol<T> *nodo) {
-    Delete(nodo);
-    //auto parent = ;
-    //Rebalance(M);
+    if (!nodo->getRight()) {
+      if (nodo->getLeft()) {
+        nodo = nodo->getLeft();
+        return;
+      }
+      nodo = NULL;
+      return;
+    }
+    NodoArbol<T> *desc = Next(nodo);
+    nodo->setDato(desc->getData());
+    auto parent = desc->getParent();
+    *desc = *(desc->getRight());
+    Rebalance(parent);
   }
 };

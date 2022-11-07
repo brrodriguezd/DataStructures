@@ -5,7 +5,7 @@ private:
   NodoArbol<T> *left;
   NodoArbol<T> *right;
   NodoArbol<T> *parent;
-  NodoArbol<T> *height;
+  int height;
 
 public:
   NodoArbol(T dato) : Nodo<T>{dato} {
@@ -19,6 +19,6 @@ public:
   NodoArbol<T> *getRight() { return this->right; }
   void setParent(NodoArbol<T> *nodo) { this->parent = nodo; }
   NodoArbol<T> *getParent() { return this->parent; }
-  void setHeight(NodoArbol<T> *nodo) { this->height = nodo; }
-  NodoArbol<T> *getHeight() { return this->height; }
+  void setHeight(int height) { this->height = height; }
+  int getHeight() { return this->height; }
 };
