@@ -1,8 +1,9 @@
 #include "../listas.h"
 #include "Tree.h"
+#include <stdexcept>
 
 template <class T> class BST : public Tree<T> {
-private:
+protected:
   NodoArbol<T> *Find(T dato, NodoArbol<T> *root) {
     if (!root) {
       throw std::runtime_error("está vacia");
@@ -38,7 +39,7 @@ private:
     }
     return lista;
   }
-  void Insert(T dato, NodoArbol<T> *root) {
+  virtual void Insert(T dato, NodoArbol<T> *root) {
     NodoArbol<T> *insertar = new NodoArbol<T>(dato);
     if (!root) {
       root = this->root = insertar;
@@ -52,6 +53,7 @@ private:
       nodo->setLeft(insertar);
     }
   }
+
 public:
   BST(NodoArbol<T> *nodo = NULL) : Tree<T>{nodo} {}
   NodoArbol<T> *Find(T dato) { return Find(dato, this->root); }
@@ -71,16 +73,16 @@ public:
   LinkedListTail<NodoArbol<T> *> RangeSearch(T x, T y) {
     return RangeSearch(x, y, this->root);
   }
-  
-  void Insert(T dato) { return Insert(dato, this->root); }
-  
+
+  virtual void Insert(T dato) { return Insert(dato, this->root); }
+
   void Delete(NodoArbol<T> *nodo) {
     if (!nodo->getRight()) {
       if (nodo->getLeft()) {
         nodo = nodo->getLeft();
         return;
       }
-      nodo = this->root = NULL;
+      nodo = NULL;
       return;
     }
     NodoArbol<T> *desc = Next(nodo);
@@ -112,11 +114,60 @@ public:
     }
     return nodo;
   }
-
   NodoArbol<T> *RightDescendant(NodoArbol<T> *nodo) {
     if (nodo->getRight()) {
       return LeftDescendant(nodo->getRight());
     }
     return nodo;
+  }
+  void RotateLeft() { return RotateLeft(this->root); }
+  void RotateLeft(NodoArbol<T> *nodo) {
+    auto parent = nodo->getParent();
+    auto nodo2 = nodo->getRight();
+    if (!nodo2) {
+      throw std::runtime_error("no hay nodo a la izquierda");
+    }
+    NodoArbol<T> *peso = nodo2->getLeft() ? nodo2->getLeft() : NULL;
+    nodo2->setParent(parent);
+    if (!nodo->getParent()) {
+      this->root = nodo2;
+    } else {
+      if (parent->getLeft() == nodo) {
+        parent->setLeft(nodo2);
+      } else {
+        parent->setRight(nodo2);
+      }
+    }
+    nodo->setParent(nodo2);
+    nodo2->setLeft(nodo);
+    if (peso) {
+      peso->setParent(nodo);
+    }
+    nodo->setRight(peso);
+  }
+  void RotateRight() { return RotateLeft(this->root); }
+  void RotateRight(NodoArbol<T> *nodo) {
+    auto parent = nodo->getParent();
+    auto nodo2 = nodo->getLeft();
+    if (!nodo2) {
+      throw std::runtime_error("no hay nodo a la derecha");
+    }
+    NodoArbol<T> *peso = nodo2->getRight() ? nodo2->getRight() : NULL;
+    nodo2->setParent(parent);
+    if (!nodo->getParent()) {
+      this->root = nodo2;
+    } else {
+      if (parent->getLeft() == nodo) {
+        parent->setLeft(nodo2);
+      } else {
+        parent->setRight(nodo2);
+      }
+    }
+    nodo->setParent(nodo2);
+    nodo2->setRight(nodo);
+    if (peso) {
+      peso->setParent(nodo);
+    }
+    nodo->setLeft(peso);
   }
 };
