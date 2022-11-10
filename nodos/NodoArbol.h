@@ -12,6 +12,7 @@ public:
     this->left = NULL;
     this->right = NULL;
     this->parent = NULL;
+    this->height = 0;
   }
   void setLeft(NodoArbol<T> *nodo) { this->left = nodo; }
   NodoArbol<T> *getLeft() { return this->left; }

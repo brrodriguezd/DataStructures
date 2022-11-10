@@ -10,10 +10,10 @@ public:
   }
   void Rebalance(NodoArbol<T> *nodo) {
     auto parent = nodo->getParent();
-    if (nodo->getLeft()->getHeight() > nodo->getRight()->getHeight() + 1) {
+    if ((nodo->getLeft()? nodo->getLeft()->getHeight() : 0) > (nodo->getRight() ? nodo->getRight()->getHeight() + 1 : 1)) {
       RebalanceRight(nodo);
     }
-    if (nodo->getRight()->getHeight() > nodo->getLeft()->getHeight() + 1) {
+    if ((nodo->getRight()? nodo->getRight()->getHeight() : 0) > (nodo->getLeft() ? nodo->getLeft()->getHeight() + 1 : 1)) {
       RebalanceLeft(nodo);
     }
     nodo->setHeight(Tree<T>::height(nodo));
@@ -35,16 +35,25 @@ public:
   void AVLdelete(NodoArbol<T> *nodo) {
     if (!nodo->getRight()) {
       if (nodo->getLeft()) {
-        nodo = nodo->getLeft();
+        nodo->getLeft()->setParent(nodo->getParent());
+        *nodo = *(nodo->getLeft());
         return;
       }
-      nodo = NULL;
+      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(NULL)
+                                            : nodo->getParent()->setLeft(NULL);
       return;
     }
-    NodoArbol<T> *desc = Next(nodo);
-    nodo->setDato(desc->getData());
+    NodoArbol<T> *desc = BST<T>::Next(nodo);
     auto parent = desc->getParent();
-    *desc = *(desc->getRight());
-    Rebalance(parent);
+    nodo->setDato(desc->getData());
+    if (desc->getRight()) {
+      *desc = *(desc->getRight());
+    } else {
+      parent->getRight() == desc ? parent->setRight(NULL)
+                                 : parent->setLeft(NULL);
+    }
+    if (parent) {
+      Rebalance(parent);
+    }
   }
 };

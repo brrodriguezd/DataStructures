@@ -11,12 +11,21 @@ int main() {
   arbol.AVLinsert(6);
   arbol.AVLinsert(10);
   arbol.AVLinsert(7);
-  arbol.inOrderTraversal();
+  arbol.levelTraversal();
   std::cout<<'\n';
-  arbol.preOrderTraversal();
+  arbol.AVLdelete(arbol.Find(7));
+  arbol.levelTraversal();
   std::cout<<'\n';
-  arbol.postOrderTraversal();
+  arbol.AVLdelete(arbol.Find(10));
+  arbol.levelTraversal();
   std::cout<<'\n';
+  arbol.AVLdelete(arbol.Find(8));
+  arbol.levelTraversal();
+  std::cout<<'\n';
+  arbol.AVLdelete(arbol.Find(6));
+  arbol.levelTraversal();
+  std::cout<<'\n';
+  arbol.AVLdelete(arbol.Find(2));
   arbol.levelTraversal();
   return 0;
 }

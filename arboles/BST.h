@@ -32,11 +32,7 @@ public:
     if (nodo->getRight()) {
       return LeftDescendant(nodo->getRight());
     } else {
-      try {
-        return RightAncestor(nodo);
-      } catch (std::runtime_error &e) {
-        throw std::runtime_error("no hay siguiente");
-      };
+      return RightAncestor(nodo);
     }
   }
   // LinkedList -> Devuelve con el orden invertido
@@ -77,15 +73,22 @@ public:
   void Delete(NodoArbol<T> *nodo) {
     if (!nodo->getRight()) {
       if (nodo->getLeft()) {
-        nodo = nodo->getLeft();
+        nodo->getLeft()->setParent(nodo->getParent());
+        *nodo = *(nodo->getLeft());
         return;
       }
-      nodo = NULL;
+      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(NULL)
+                                            : nodo->getParent()->setLeft(NULL);
       return;
     }
     NodoArbol<T> *desc = Next(nodo);
     nodo->setDato(desc->getData());
-    *desc = *(desc->getRight());
+    if (desc->getRight()) {
+      *desc = *(desc->getRight());
+    } else {
+      desc->getParent()->getRight() == desc ? desc->getParent()->setRight(NULL)
+                                            : desc->getParent()->setLeft(NULL);
+    }
   }
 
   NodoArbol<T> *RightAncestor(NodoArbol<T> *nodo) {
