@@ -59,7 +59,7 @@ public:
     return result;
   }
   void Remove(int index) {
-    this->heap[index-1] = std::numeric_limits<int>::min();
+    this->heap[index-1] = std::numeric_limits<T>::min();
     SiftUp(index);
     ExtractMin();
   }
