@@ -1,29 +1,29 @@
-#include "../nodos.h"
+#include "../Nodo.h"
 
 template <class T> class LinkedListTail_O {
 private:
-  NodoNext<T> *head;
-  NodoNext<T> *tail;
+  Nodo<T> *head;
+  Nodo<T> *tail;
 
 public:
   LinkedListTail_O() {
-    this->head = NULL;
-    this->tail = NULL;
+    this->head = nullptr;
+    this->tail = nullptr;
   }
   void Insert(T dato) {
-    NodoNext<T> *nodo = new NodoNext<T>(dato);
+    Nodo<T> *nodo = new Nodo<T>(dato);
     if (!this->tail) {
       this->tail = this->head = nodo;
       return;
     }
-    if (!(this->head->getData() < dato)) {
+    if (!(this->head->getDato() < dato)) {
       nodo->setNext(this->head);
       this->head = nodo;
       return;
     }
-    NodoNext<T> *recorrer = this->head;
+    Nodo<T> *recorrer = this->head;
     while (recorrer->getNext()) {
-      if (!(recorrer->getNext()->getData() < dato)) {
+      if (!(recorrer->getNext()->getDato() < dato)) {
         break;
       }
       recorrer = recorrer->getNext();
@@ -38,7 +38,7 @@ public:
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
-    return this->head->getData();
+    return this->head->getDato();
   }
   void PopFront() {
     if (!this->head) {
@@ -46,34 +46,34 @@ public:
     }
     this->head = this->head->getNext();
     if (!this->head) {
-      this->tail = NULL;
+      this->tail = nullptr;
     }
   }
   T TopBack() {
     if (!this->tail) {
       throw std::runtime_error("está vacio");
     }
-    return this->tail->getData();
+    return this->tail->getDato();
   }
   void PopBack() {
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
     if (this->tail == this->head) {
-      this->tail = this->head = NULL;
+      this->tail = this->head = nullptr;
       return;
     }
-    NodoNext<T> *recorrer = this->head;
+    Nodo<T> *recorrer = this->head;
     while (recorrer->getNext()->getNext()) {
       recorrer = recorrer->getNext();
     }
-    recorrer->setNext(NULL);
+    recorrer->setNext(nullptr);
     this->tail = recorrer;
   }
-  NodoNext<T> *Find(T dato) {
-    NodoNext<T> *recorrer = this->head;
+  Nodo<T> *Find(T dato) {
+    Nodo<T> *recorrer = this->head;
     while (recorrer) {
-      if (recorrer->getData() == dato) {
+      if (recorrer->getDato() == dato) {
         return recorrer;
       }
       recorrer = recorrer->getNext();
@@ -84,15 +84,15 @@ public:
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
-    NodoNext<T> *recorrer = this->head;
-    if (this->head->getData() == dato) {
+    Nodo<T> *recorrer = this->head;
+    if (this->head->getDato() == dato) {
       this->PopFront();
       return;
     }
     while (recorrer->getNext()) {
-      if (recorrer->getNext()->getData() == dato) {
+      if (recorrer->getNext()->getDato() == dato) {
         if (recorrer->getNext() == this->tail) {
-          recorrer->setNext(NULL);
+          recorrer->setNext(nullptr);
           this->tail = recorrer;
           return;
         }
@@ -112,9 +112,9 @@ public:
 
   void Display() {
     if (this->head) {
-      NodoNext<T> *recorrer = this->head;
+      Nodo<T> *recorrer = this->head;
       while (recorrer) {
-        std::cout << recorrer->getData() << " ";
+        std::cout << recorrer->getDato() << " ";
         recorrer = recorrer->getNext();
       }
     }

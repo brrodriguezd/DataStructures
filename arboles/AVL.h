@@ -7,10 +7,10 @@ protected:
 public:
   void AVLinsert(T dato) {
     BST<T>::Insert(dato, this->root);
-    NodoArbol<T> *nodo = BST<T>::Find(dato);
+    Nodo<T> *nodo = BST<T>::Find(dato);
     Rebalance(nodo);
   }
-  void Rebalance(NodoArbol<T> *nodo) {
+  void Rebalance(Nodo<T> *nodo) {
     auto parent = nodo->getParent();
     if (nodo->getLeft()) {
       if ((nodo->getLeft()->getHeight()) >
@@ -28,9 +28,9 @@ public:
     if (parent) {
       Rebalance(parent);
     }
-//    std::cout << nodo->getData() << ": " << nodo->getHeight() << ". ";
+    // std::cout << nodo->getDato() << ": " << nodo->getHeight() << ". ";
   }
-  void RebalanceRight(NodoArbol<T> *nodo) {
+  void RebalanceRight(Nodo<T> *nodo) {
     auto subn = nodo->getLeft();
     if ((subn->getRight() ? subn->getRight()->getHeight() : 0) >
         (subn->getLeft() ? subn->getLeft()->getHeight() : 0)) {
@@ -40,7 +40,7 @@ public:
     BST<T>::RotateRight(nodo);
     nodo->setHeight(Tree<T>::height(nodo));
   }
-  void RebalanceLeft(NodoArbol<T> *nodo) {
+  void RebalanceLeft(Nodo<T> *nodo) {
     auto subn = nodo->getRight();
     if ((subn->getLeft() ? subn->getLeft()->getHeight() : 0) >
         (subn->getRight() ? subn->getRight()->getHeight() : 0)) {
@@ -50,7 +50,7 @@ public:
     BST<T>::RotateLeft(nodo);
     nodo->setHeight(Tree<T>::height(nodo));
   }
-  void AVLdelete(NodoArbol<T> *nodo) {
+  void AVLdelete(Nodo<T> *nodo) {
     if (!nodo->getRight()) {
       if (nodo->getLeft()) {
         nodo->getLeft()->setParent(nodo->getParent());
@@ -58,19 +58,19 @@ public:
         Rebalance(nodo->getParent());
         return;
       }
-      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(NULL)
-                                            : nodo->getParent()->setLeft(NULL);
+      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(nullptr)
+                                            : nodo->getParent()->setLeft(nullptr);
       Rebalance(nodo->getParent());
       return;
     }
-    NodoArbol<T> *desc = BST<T>::Next(nodo);
+    Nodo<T> *desc = BST<T>::Next(nodo);
     auto parent = desc->getParent();
-    nodo->setDato(desc->getData());
+    nodo->setDato(desc->getDato());
     if (desc->getRight()) {
       *desc = *(desc->getRight());
     } else {
-      parent->getRight() == desc ? parent->setRight(NULL)
-                                 : parent->setLeft(NULL);
+      parent->getRight() == desc ? parent->setRight(nullptr)
+                                 : parent->setLeft(nullptr);
     }
     if (parent) {
       Rebalance(parent);

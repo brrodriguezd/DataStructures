@@ -1,20 +1,20 @@
 #pragma once
 #include "../listas.h"
-#include "../nodos.h"
+#include "../Nodo.h"
 
 template <class T> class Tree {
 protected:
-  NodoArbol<T> *root;
+  Nodo<T> *root;
 
 public:
   Tree(T dato) {
-    NodoArbol<T> *nodoarbol = new NodoArbol<T>(dato);
-    this->root = nodoarbol;
+    Nodo<T> *nodo = new Nodo<T>(dato);
+    this->root = nodo;
   }
-  Tree(NodoArbol<T> *nodoarbol = NULL) { this->root = nodoarbol; }
+  Tree(Nodo<T> *nodo = nullptr) { this->root = nodo; }
 
   int height() { return height(this->root); }
-  int height(NodoArbol<T> *tree) {
+  int height(Nodo<T> *tree) {
     if (!tree) {
       return 0;
     }
@@ -22,31 +22,31 @@ public:
   }
 
   int size() { return size(this->root); }
-  int size(NodoArbol<T> *tree) {
+  int size(Nodo<T> *tree) {
     if (!tree) {
       return 0;
     }
     return 1 + size(tree->getLeft()) + size(tree->getRight());
   }
   void inOrderTraversal() { inOrderTraversal(this->root); }
-  void inOrderTraversal(NodoArbol<T> *tree) {
+  void inOrderTraversal(Nodo<T> *tree) {
     if (!tree) {
       throw std::runtime_error("está vacio");
     }
     if (tree->getLeft()) {
       inOrderTraversal(tree->getLeft());
     }
-    std::cout << tree->getData() << " ";
+    std::cout << tree->getDato() << " ";
     if (tree->getRight()) {
       inOrderTraversal(tree->getRight());
     }
   }
   void preOrderTraversal() { preOrderTraversal(this->root); }
-  void preOrderTraversal(NodoArbol<T> *tree) {
+  void preOrderTraversal(Nodo<T> *tree) {
     if (!tree) {
       throw std::runtime_error("está vacio");
     }
-    std::cout << tree->getData() << " ";
+    std::cout << tree->getDato() << " ";
     if (tree->getLeft()) {
       preOrderTraversal(tree->getLeft());
     }
@@ -55,7 +55,7 @@ public:
     }
   }
   void postOrderTraversal() { postOrderTraversal(this->root); }
-  void postOrderTraversal(NodoArbol<T> *tree) {
+  void postOrderTraversal(Nodo<T> *tree) {
     if (!tree) {
       throw std::runtime_error("está vacio");
     }
@@ -65,18 +65,18 @@ public:
     if (tree->getRight()) {
       postOrderTraversal(tree->getRight());
     }
-    std::cout << tree->getData() << " ";
+    std::cout << tree->getDato() << " ";
   }
   void levelTraversal() { levelTraversal(this->root); }
-  void levelTraversal(NodoArbol<T> *tree) {
+  void levelTraversal(Nodo<T> *tree) {
     if (!tree) {
       return;
     }
-    LinkedListTail<NodoArbol<T> *> lista;
+    LinkedListTail<Nodo<T> *> lista;
     lista.PushBack(tree);
     while (!lista.Empty()) {
       auto dato = lista.TopFront();
-      std::cout << dato->getData() << " ";
+      std::cout << dato->getDato() << " ";
       lista.PopFront();
       if (dato->getLeft()) {
         lista.PushBack(dato->getLeft());

@@ -4,16 +4,16 @@
 template <class T> class BST : public Tree<T> {
 protected:
 public:
-  BST(NodoArbol<T> *nodo = NULL) : Tree<T>{nodo} {}
-  NodoArbol<T> *Find(T dato) { return Find(dato, this->root); }
-  NodoArbol<T> *Find(T dato, NodoArbol<T> *root) {
+  BST(Nodo<T> *nodo = nullptr) : Tree<T>{nodo} {}
+  Nodo<T> *Find(T dato) { return Find(dato, this->root); }
+  Nodo<T> *Find(T dato, Nodo<T> *root) {
     if (!root) {
       throw std::runtime_error("está vacia");
     }
-    if (root->getData() == dato) {
+    if (root->getDato() == dato) {
       return root;
     }
-    if (root->getData() > dato) {
+    if (root->getDato() > dato) {
       if (root->getLeft()) {
         return Find(dato, root->getLeft());
       } else {
@@ -28,7 +28,7 @@ public:
     }
   }
 
-  NodoArbol<T> *Next(NodoArbol<T> *nodo) {
+  Nodo<T> *Next(Nodo<T> *nodo) {
     if (nodo->getRight()) {
       return LeftDescendant(nodo->getRight());
     } else {
@@ -36,17 +36,17 @@ public:
     }
   }
   // LinkedList -> Devuelve con el orden invertido
-  LinkedListTail<NodoArbol<T> *> RangeSearch(T x, T y) {
+  LinkedListTail<Nodo<T> *> RangeSearch(T x, T y) {
     return RangeSearch(x, y, this->root);
   }
-  LinkedListTail<NodoArbol<T> *> RangeSearch(T x, T y, NodoArbol<T> *root) {
+  LinkedListTail<Nodo<T> *> RangeSearch(T x, T y, Nodo<T> *root) {
     if (!root) {
       throw std::runtime_error("está vacia");
     }
-    LinkedListTail<NodoArbol<T> *> lista;
-    NodoArbol<T> *nodo = Find(x, root);
-    while (nodo.getData() < y) {
-      if (nodo.getData() >= x) {
+    LinkedListTail<Nodo<T> *> lista;
+    Nodo<T> *nodo = Find(x, root);
+    while (nodo.getDato() < y) {
+      if (nodo.getDato() >= x) {
         lista.PushBack(nodo);
       }
       nodo = Next(nodo);
@@ -55,44 +55,44 @@ public:
   }
 
   void Insert(T dato) { return Insert(dato, this->root); }
-  void Insert(T dato, NodoArbol<T> *root) {
-    NodoArbol<T> *insertar = new NodoArbol<T>(dato);
+  void Insert(T dato, Nodo<T> *root) {
+    Nodo<T> *insertar = new Nodo<T>(dato);
     if (!root) {
       root = this->root = insertar;
       return;
     }
-    NodoArbol<T> *nodo = Find(dato, root);
+    Nodo<T> *nodo = Find(dato, root);
     insertar->setParent(nodo);
-    if (nodo->getData() < dato) {
+    if (nodo->getDato() < dato) {
       nodo->setRight(insertar);
     } else {
       nodo->setLeft(insertar);
     }
   }
 
-  void Delete(NodoArbol<T> *nodo) {
+  void Delete(Nodo<T> *nodo) {
     if (!nodo->getRight()) {
       if (nodo->getLeft()) {
         nodo->getLeft()->setParent(nodo->getParent());
         *nodo = *(nodo->getLeft());
         return;
       }
-      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(NULL)
-                                            : nodo->getParent()->setLeft(NULL);
+      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(nullptr)
+                                            : nodo->getParent()->setLeft(nullptr);
       return;
     }
-    NodoArbol<T> *desc = Next(nodo);
-    nodo->setDato(desc->getData());
+    Nodo<T> *desc = Next(nodo);
+    nodo->setDato(desc->getDato());
     if (desc->getRight()) {
       *desc = *(desc->getRight());
     } else {
-      desc->getParent()->getRight() == desc ? desc->getParent()->setRight(NULL)
-                                            : desc->getParent()->setLeft(NULL);
+      desc->getParent()->getRight() == desc ? desc->getParent()->setRight(nullptr)
+                                            : desc->getParent()->setLeft(nullptr);
     }
   }
 
-  NodoArbol<T> *RightAncestor(NodoArbol<T> *nodo) {
-    if (nodo->getData() < nodo->getParent()->getData()) {
+  Nodo<T> *RightAncestor(Nodo<T> *nodo) {
+    if (nodo->getDato() < nodo->getParent()->getDato()) {
       return nodo;
     }
     if (nodo->getParent()) {
@@ -100,8 +100,8 @@ public:
     }
     throw std::runtime_error("no hay ancestro derecho");
   }
-  NodoArbol<T> *LeftAncestor(NodoArbol<T> *nodo) {
-    if (nodo->getData() > nodo->getParent()->getData()) {
+  Nodo<T> *LeftAncestor(Nodo<T> *nodo) {
+    if (nodo->getDato() > nodo->getParent()->getDato()) {
       return nodo;
     }
     if (nodo->getParent()) {
@@ -109,26 +109,26 @@ public:
     }
     throw std::runtime_error("no hay ancestro izquierdo");
   }
-  NodoArbol<T> *LeftDescendant(NodoArbol<T> *nodo) {
+  Nodo<T> *LeftDescendant(Nodo<T> *nodo) {
     if (nodo->getLeft()) {
       return LeftDescendant(nodo->getLeft());
     }
     return nodo;
   }
-  NodoArbol<T> *RightDescendant(NodoArbol<T> *nodo) {
+  Nodo<T> *RightDescendant(Nodo<T> *nodo) {
     if (nodo->getRight()) {
       return LeftDescendant(nodo->getRight());
     }
     return nodo;
   }
   void RotateLeft() { return RotateLeft(this->root); }
-  void RotateLeft(NodoArbol<T> *nodo) {
+  void RotateLeft(Nodo<T> *nodo) {
     auto parent = nodo->getParent();
     auto nodo2 = nodo->getRight();
     if (!nodo2) {
       throw std::runtime_error("no hay nodo a la izquierda");
     }
-    NodoArbol<T> *peso = nodo2->getLeft() ? nodo2->getLeft() : NULL;
+    Nodo<T> *peso = nodo2->getLeft() ? nodo2->getLeft() : nullptr;
     nodo2->setParent(parent);
     if (!nodo->getParent()) {
       this->root = nodo2;
@@ -147,13 +147,13 @@ public:
     nodo->setRight(peso);
   }
   void RotateRight() { return RotateRight(this->root); }
-  void RotateRight(NodoArbol<T> *nodo) {
+  void RotateRight(Nodo<T> *nodo) {
     auto parent = nodo->getParent();
     auto nodo2 = nodo->getLeft();
     if (!nodo2) {
       throw std::runtime_error("no hay nodo a la derecha");
     }
-    NodoArbol<T> *peso = nodo2->getRight() ? nodo2->getRight() : NULL;
+    Nodo<T> *peso = nodo2->getRight() ? nodo2->getRight() : nullptr;
     nodo2->setParent(parent);
     if (!nodo->getParent()) {
       this->root = nodo2;

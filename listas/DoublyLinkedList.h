@@ -1,26 +1,26 @@
-#include "../nodos.h"
+#include "../Nodo.h"
 
 template <class T> class DoublyLinkedList {
 private:
-  NodoPrev<T> *head;
+  Nodo<T> *head;
 
 public:
-  DoublyLinkedList() { this->head = NULL; }
+  DoublyLinkedList() { this->head = nullptr; }
   void PushFront(T dato) {
-    NodoPrev<T> *nodoprev = new NodoPrev<T>(dato);
+    Nodo<T> *nodo = new Nodo<T>(dato);
     if (!this->head) {
-      this->head = nodoprev;
+      this->head = nodo;
       return;
     }
-    this->head->setPrev(nodoprev);
-    nodoprev->setNext(this->head);
-    this->head = nodoprev;
+    this->head->setPrev(nodo);
+    nodo->setNext(this->head);
+    this->head = nodo;
   }
   T TopFront() {
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
-    return this->head->getData();
+    return this->head->getDato();
   }
   void PopFront() {
     if (!this->head) {
@@ -28,50 +28,50 @@ public:
     }
     this->head = this->head->getNext();
     if (this->head) {
-      this->head->setPrev(NULL);
+      this->head->setPrev(nullptr);
     }
   }
   void PushBack(T dato) {
-    NodoPrev<T> *nodoprev = new NodoPrev<T>(dato);
+    Nodo<T> *nodo = new Nodo<T>(dato);
     if (!this->head) {
-      this->head = nodoprev;
+      this->head = nodo;
       return;
     }
-    NodoPrev<T> *recorrer = this->head;
+    Nodo<T> *recorrer = this->head;
     while (recorrer->getNext()) {
       recorrer = recorrer->getNext();
     }
-    recorrer->setNext(nodoprev);
-    nodoprev->setPrev(recorrer);
+    recorrer->setNext(nodo);
+    nodo->setPrev(recorrer);
   }
   T TopBack() {
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
-    NodoPrev<T> *recorrer = this->head;
+    Nodo<T> *recorrer = this->head;
     while (recorrer->getNext()) {
       recorrer = recorrer->getNext();
     }
-    return recorrer->getData();
+    return recorrer->getDato();
   }
   void PopBack() {
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
     if (!this->head->getNext()) {
-      this->head = NULL;
+      this->head = nullptr;
       return;
     }
-    NodoPrev<T> *recorrer = this->head;
+    Nodo<T> *recorrer = this->head;
     while (recorrer->getNext()->getNext()) {
       recorrer = recorrer->getNext();
     }
-    recorrer->setNext(NULL);
+    recorrer->setNext(nullptr);
   }
-  NodoPrev<T> *Find(T dato) {
-    NodoPrev<T> *recorrer = this->head;
-    while (recorrer->getData()) {
-      if (recorrer->getData() == dato) {
+  Nodo<T> *Find(T dato) {
+    Nodo<T> *recorrer = this->head;
+    while (recorrer->getDato()) {
+      if (recorrer->getDato() == dato) {
         return recorrer;
       }
       recorrer = recorrer->getNext();
@@ -82,19 +82,19 @@ public:
     if (!this->head) {
       throw std::runtime_error("está vacio");
     }
-    if (this->head->getData() == dato) {
+    if (this->head->getDato() == dato) {
       this->PopFront();
       return;
     }
-    NodoPrev<T> *recorrer = this->head;
+    Nodo<T> *recorrer = this->head;
     while (recorrer->getNext()) {
-      if (recorrer->getNext()->getData() == dato) {
+      if (recorrer->getNext()->getDato() == dato) {
         if (recorrer->getNext()->getNext()) {
           recorrer->getNext()->getNext()->setPrev(recorrer);
           recorrer->setNext(recorrer->getNext()->getNext());
           return;
         }
-        recorrer->setNext(NULL);
+        recorrer->setNext(nullptr);
         return;
       }
       recorrer = recorrer->getNext();
@@ -107,31 +107,31 @@ public:
     }
     return false;
   }
-  void AddBefore(NodoPrev<T> *nodoprev, T dato) {
-    NodoPrev<T> *data = new NodoPrev<T>(dato);
-    if (nodoprev->getPrev()) {
-      nodoprev->getPrev()->setNext(data);
+  void AddBefore(Nodo<T> *nodo, T dato) {
+    Nodo<T> *data = new Nodo<T>(dato);
+    if (nodo->getPrev()) {
+      nodo->getPrev()->setNext(data);
     } else {
       this->head = data;
     }
-    data->setPrev(nodoprev->getPrev());
-    nodoprev->setPrev(data);
-    data->setNext(nodoprev);
+    data->setPrev(nodo->getPrev());
+    nodo->setPrev(data);
+    data->setNext(nodo);
   }
-  void AddAfter(NodoPrev<T> *nodoprev, T dato) {
-    NodoPrev<T> *data = new NodoPrev<T>(dato);
-    if (nodoprev->getNext()) {
-      nodoprev->getNext()->setPrev(data);
+  void AddAfter(Nodo<T> *nodo, T dato) {
+    Nodo<T> *data = new Nodo<T>(dato);
+    if (nodo->getNext()) {
+      nodo->getNext()->setPrev(data);
     }
-    data->setNext(nodoprev->getNext());
-    nodoprev->setNext(data);
-    data->setPrev(nodoprev);
+    data->setNext(nodo->getNext());
+    nodo->setNext(data);
+    data->setPrev(nodo);
   }
   void Display() {
     if (this->head) {
-      NodoPrev<T> *recorrer = this->head;
+      Nodo<T> *recorrer = this->head;
       while (recorrer) {
-        std::cout << recorrer->getData() << " ";
+        std::cout << recorrer->getDato() << " ";
         recorrer = recorrer->getNext();
       }
     }
@@ -139,12 +139,12 @@ public:
   }
   void DisplayBackwards() {
     if (this->head) {
-      NodoPrev<T> *recorrer = this->head;
+      Nodo<T> *recorrer = this->head;
       while (recorrer->getNext()) {
         recorrer = recorrer->getNext();
       }
       while (recorrer) {
-        std::cout << recorrer->getData() << " ";
+        std::cout << recorrer->getDato() << " ";
         recorrer = recorrer->getPrev();
       }
     }
