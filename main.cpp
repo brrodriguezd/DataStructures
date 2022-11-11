@@ -11,7 +11,6 @@ int main() {
   arbol.AVLinsert(6);
   arbol.AVLinsert(10);
   arbol.AVLinsert(7);
-  std::cout<<'\n';
   arbol.levelTraversal();
   std::cout<<'\n';
   arbol.AVLdelete(arbol.Find(1));
@@ -33,6 +32,7 @@ int main() {
   arbol.AVLdelete(arbol.Find(2));
   std::cout<<'\n';
   arbol.levelTraversal();
+  std::cout<<'\n';
   return 0;
 }
 /*

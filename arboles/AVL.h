@@ -28,7 +28,7 @@ public:
     if (parent) {
       Rebalance(parent);
     }
-    std::cout << nodo->getData() << ": " << nodo->getHeight() << ". ";
+//    std::cout << nodo->getData() << ": " << nodo->getHeight() << ". ";
   }
   void RebalanceRight(NodoArbol<T> *nodo) {
     auto subn = nodo->getLeft();
