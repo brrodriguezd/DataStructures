@@ -146,7 +146,7 @@ public:
     }
     nodo->setRight(peso);
   }
-  void RotateRight() { return RotateLeft(this->root); }
+  void RotateRight() { return RotateRight(this->root); }
   void RotateRight(NodoArbol<T> *nodo) {
     auto parent = nodo->getParent();
     auto nodo2 = nodo->getLeft();
