@@ -1,8 +1,4 @@
-#include "arboles.h"
-#include "listas.h"
-
-int main() {
-  MinHeap<int> heap(12);
+  MaxHeap<int> heap(12);
   heap.Insert(4);
   heap.Display();
   heap.Insert(7);
@@ -14,17 +10,8 @@ int main() {
   heap.Insert(12);
   heap.Insert(3);
   heap.Display();
-  auto dato = heap.ExtractMin();
+  auto dato = heap.ExtractMax();
   heap.Remove(3);
   heap.Remove(2);
   std::cout<<dato<<'\n';
-  heap.Display();
-  return 0;
-}
-/*
-      7
-    7   7
-  7  7  7  7
-4
-
-*/
+  heap.Display();s
