@@ -78,4 +78,9 @@ public:
     }
     std::cout << '\n';
   }
+  void BuildHeap(std::vector<T> arr){
+    for (int i = 0; i < arr.size(); i++){
+      this->Insert(arr[i]);
+    }
+  }
 };
