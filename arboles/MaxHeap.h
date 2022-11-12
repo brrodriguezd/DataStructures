@@ -14,6 +14,24 @@ public:
     this->size = 0;
     this->heap.resize(size);
   }
+  MaxHeap(std::vector<T> arr) {
+    this->size = this->maxSize = arr.size();
+    this->heap = arr;
+    for (int i = (this->size + 1) / 2; i > 0; i--) {
+      SiftDown(i);
+    }
+  }
+  void HeapSort() {
+    auto save = this->size;
+    while(this->size > 1) {
+      T temp = this->heap[0];
+      this->heap[0] = this->heap[this->size - 1];
+      this->heap[this->size - 1] = temp;
+      this->size -= 1;
+      SiftDown(1);
+    }
+    this->size=save;
+  }
   int parent(int index) { return index / 2; }
   int leftChild(int index) { return index * 2; }
   int rightChild(int index) { return index * 2 + 1; }
@@ -22,24 +40,25 @@ public:
            (this->heap[parent(index) - 1] < this->heap[index - 1])) {
       T temp = this->heap[index - 1];
       this->heap[index - 1] = this->heap[parent(index) - 1];
-      this->heap[parent(index)-1] = temp;
+      this->heap[parent(index) - 1] = temp;
       index = parent(index);
     }
   }
   void SiftDown(int index) {
     auto maxIndex = index;
     auto left = leftChild(index);
-    if (left <= this->size && this->heap[left-1] > this->heap[maxIndex-1]) {
+    if (left <= this->size && this->heap[left - 1] > this->heap[maxIndex - 1]) {
       maxIndex = left;
     }
     auto right = rightChild(index);
-    if (right <= this->size && this->heap[right-1] > this->heap[maxIndex-1]) {
+    if (right <= this->size &&
+        this->heap[right - 1] > this->heap[maxIndex - 1]) {
       maxIndex = right;
     }
     if (index != maxIndex) {
-      auto temp = this->heap[index-1];
-      this->heap[index-1] = this->heap[maxIndex-1];
-      this->heap[maxIndex-1] = temp;
+      auto temp = this->heap[index - 1];
+      this->heap[index - 1] = this->heap[maxIndex - 1];
+      this->heap[maxIndex - 1] = temp;
       SiftDown(maxIndex);
     }
   }
@@ -59,13 +78,13 @@ public:
     return result;
   }
   void Remove(int index) {
-    this->heap[index-1] = std::numeric_limits<T>::max();
+    this->heap[index - 1] = std::numeric_limits<T>::max();
     SiftUp(index);
     ExtractMax();
   }
   void ChagePriotiry(int index, T dato) {
-    auto oldp = this->heap[index-1];
-    this->heap[index-1] = dato;
+    auto oldp = this->heap[index - 1];
+    this->heap[index - 1] = dato;
     if (dato > oldp) {
       SiftUp(index);
     } else {
@@ -78,8 +97,8 @@ public:
     }
     std::cout << '\n';
   }
-  void BuildHeap(std::vector<T> arr){
-    for (int i = 0; i < arr.size(); i++){
+  void BuildHeap(std::vector<T> arr) {
+    for (int i = 0; i < arr.size(); i++) {
       this->Insert(arr[i]);
     }
   }
