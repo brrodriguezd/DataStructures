@@ -14,4 +14,6 @@
   heap.Remove(3);
   heap.Remove(2);
   std::cout<<dato<<'\n';
-  heap.Display();s
+  heap.Display();
+  heap.HeapSort();
+  heap.Display();

@@ -2,7 +2,7 @@
 #include "listas.h"
 
 int main() {
-  MaxHeap<int> heap(12);
+  MinHeap<int> heap(12);
   heap.Insert(4);
   heap.Display();
   heap.Insert(7);
@@ -14,7 +14,7 @@ int main() {
   heap.Insert(12);
   heap.Insert(3);
   heap.Display();
-  auto dato = heap.ExtractMax();
+  auto dato = heap.ExtractMin();
   heap.Remove(3);
   heap.Remove(2);
   std::cout<<dato<<'\n';
@@ -23,10 +23,3 @@ int main() {
   heap.Display();
   return 0;
 }
-/*
-      7
-    7   7
-  7  7  7  7
-4
-
-*/

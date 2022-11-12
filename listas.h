@@ -14,6 +14,7 @@ LinkedListTail<T>
 LinkedList<T>
 DoublyLinkedListTail<T>
 DoublyLinkedList<T>
+
 PushFront(T)
 T TopFront()
 PopFront()
@@ -34,6 +35,7 @@ LinkedListTail_O<T>
 LinkedList_O<T>
 DoublyLinkedListTail_O<T>
 DoublyLinkedList_O<T>
+
 Insert(T)
 PopFront()
 PopBack()
