@@ -44,10 +44,14 @@ public:
       throw std::runtime_error("está vacia");
     }
     LinkedListTail<Nodo<T> *> lista;
-    Nodo<T> *nodo = Find(x, root);
-    while (nodo.getDato() < y) {
-      if (nodo.getDato() >= x) {
+    auto *nodo = Find(x, root);
+    while (nodo->getDato() <= y) {
+      if (nodo->getDato() >= x) {
+        std::cout<<nodo->getDato();
         lista.PushBack(nodo);
+      }
+      if(nodo == Next(nodo)){
+        break;
       }
       nodo = Next(nodo);
     }
@@ -93,7 +97,7 @@ public:
 
   Nodo<T> *RightAncestor(Nodo<T> *nodo) {
     if (nodo->getDato() < nodo->getParent()->getDato()) {
-      return nodo;
+      return nodo->getParent();
     }
     if (nodo->getParent()) {
       return RightAncestor(nodo->getParent());
@@ -117,7 +121,7 @@ public:
   }
   Nodo<T> *RightDescendant(Nodo<T> *nodo) {
     if (nodo->getRight()) {
-      return LeftDescendant(nodo->getRight());
+      return RightDescendant(nodo->getRight());
     }
     return nodo;
   }
