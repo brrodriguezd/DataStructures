@@ -47,10 +47,10 @@ public:
     auto *nodo = Find(x, root);
     while (nodo->getDato() <= y) {
       if (nodo->getDato() >= x) {
-        std::cout<<nodo->getDato();
+        std::cout << nodo->getDato();
         lista.PushBack(nodo);
       }
-      if(nodo == Next(nodo)){
+      if (nodo == Next(nodo)) {
         break;
       }
       nodo = Next(nodo);
@@ -81,8 +81,9 @@ public:
         *nodo = *(nodo->getLeft());
         return;
       }
-      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(nullptr)
-                                            : nodo->getParent()->setLeft(nullptr);
+      nodo->getParent()->getRight() == nodo
+          ? nodo->getParent()->setRight(nullptr)
+          : nodo->getParent()->setLeft(nullptr);
       return;
     }
     Nodo<T> *desc = Next(nodo);
@@ -90,25 +91,26 @@ public:
     if (desc->getRight()) {
       *desc = *(desc->getRight());
     } else {
-      desc->getParent()->getRight() == desc ? desc->getParent()->setRight(nullptr)
-                                            : desc->getParent()->setLeft(nullptr);
+      desc->getParent()->getRight() == desc
+          ? desc->getParent()->setRight(nullptr)
+          : desc->getParent()->setLeft(nullptr);
     }
   }
 
   Nodo<T> *RightAncestor(Nodo<T> *nodo) {
-    if (nodo->getDato() < nodo->getParent()->getDato()) {
-      return nodo->getParent();
-    }
     if (nodo->getParent()) {
+      if (nodo->getDato() < nodo->getParent()->getDato()) {
+        return nodo->getParent();
+      }
       return RightAncestor(nodo->getParent());
     }
     throw std::runtime_error("no hay ancestro derecho");
   }
   Nodo<T> *LeftAncestor(Nodo<T> *nodo) {
-    if (nodo->getDato() > nodo->getParent()->getDato()) {
-      return nodo;
-    }
     if (nodo->getParent()) {
+      if (nodo->getDato() > nodo->getParent()->getDato()) {
+        return nodo;
+      }
       return LeftAncestor(nodo->getParent());
     }
     throw std::runtime_error("no hay ancestro izquierdo");

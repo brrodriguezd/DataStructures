@@ -12,9 +12,9 @@ int main() {
   arbol.Insert(10);
   arbol.Insert(7);
   arbol.levelTraversal();
-  auto nodo = arbol.Find(3);
-  auto lista = arbol.RangeSearch(3, 8);
-  lista.Display();
+  auto nodo = arbol.Find(10);
+  auto nodo2 = arbol.Next(nodo);
+  std::cout <<nodo2->getDato();
   std::cout << '\n';
   arbol.Delete(arbol.Find(1));
   std::cout << '\n';
