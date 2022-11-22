@@ -7,31 +7,6 @@ private:
   int maxSize;
   int size;
   std::vector<T> heap;
-
-public:
-  MaxHeap(int size) {
-    this->maxSize = size;
-    this->size = 0;
-    this->heap.resize(size);
-  }
-  MaxHeap(std::vector<T> arr) {
-    this->size = this->maxSize = arr.size();
-    this->heap = arr;
-    for (int i = (this->size + 1) / 2; i > 0; i--) {
-      SiftDown(i);
-    }
-  }
-  void HeapSort() {
-    auto save = this->size;
-    while(this->size > 1) {
-      T temp = this->heap[0];
-      this->heap[0] = this->heap[this->size - 1];
-      this->heap[this->size - 1] = temp;
-      this->size -= 1;
-      SiftDown(1);
-    }
-    this->size=save;
-  }
   int parent(int index) { return index / 2; }
   int leftChild(int index) { return index * 2; }
   int rightChild(int index) { return index * 2 + 1; }
@@ -61,6 +36,37 @@ public:
       this->heap[maxIndex - 1] = temp;
       SiftDown(maxIndex);
     }
+  }
+
+public:
+  MaxHeap(int size) {
+    this->maxSize = size;
+    this->size = 0;
+    this->heap.resize(size);
+  }
+  MaxHeap(std::vector<T> arr) {
+    this->size = this->maxSize = arr.size();
+    this->heap = arr;
+    for (int i = (this->size + 1) / 2; i > 0; i--) {
+      SiftDown(i);
+    }
+  }
+  void HeapSort() {
+    auto save = this->size;
+    while (this->size > 1) {
+      T temp = this->heap[0];
+      this->heap[0] = this->heap[this->size - 1];
+      this->heap[this->size - 1] = temp;
+      this->size -= 1;
+      SiftDown(1);
+    }
+    this->size = save;
+  }
+  bool empty() {
+    if (this->size == 0) {
+      return true;
+    }
+    return false;
   }
   void Insert(T dato) {
     if (this->size == this->maxSize) {
