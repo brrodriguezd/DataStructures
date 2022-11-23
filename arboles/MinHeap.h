@@ -62,7 +62,7 @@ public:
     }
     this->size=save;
   }
-  bool empty() { 
+  bool Empty() { 
     if (this->size == 0) {
       return true;
     }

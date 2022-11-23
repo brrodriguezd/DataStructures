@@ -1,34 +1,24 @@
 #pragma once
-#include "../listas.h"
 #include "../Nodo.h"
+#include "../listas.h"
 
 template <class T> class Tree {
 protected:
   Nodo<T> *root;
 
-public:
-  Tree(T dato) {
-    Nodo<T> *nodo = new Nodo<T>(dato);
-    this->root = nodo;
-  }
-  Tree(Nodo<T> *nodo = nullptr) { this->root = nodo; }
-
-  int height() { return height(this->root); }
   int height(Nodo<T> *tree) {
     if (!tree) {
       return 0;
     }
     return 1 + std::max(height(tree->getLeft()), height(tree->getRight()));
   }
-
-  int size() { return size(this->root); }
   int size(Nodo<T> *tree) {
     if (!tree) {
       return 0;
     }
     return 1 + size(tree->getLeft()) + size(tree->getRight());
   }
-  void inOrderTraversal() { inOrderTraversal(this->root); }
+
   void inOrderTraversal(Nodo<T> *tree) {
     if (!tree) {
       throw std::runtime_error("está vacio");
@@ -41,7 +31,6 @@ public:
       inOrderTraversal(tree->getRight());
     }
   }
-  void preOrderTraversal() { preOrderTraversal(this->root); }
   void preOrderTraversal(Nodo<T> *tree) {
     if (!tree) {
       throw std::runtime_error("está vacio");
@@ -54,7 +43,6 @@ public:
       preOrderTraversal(tree->getRight());
     }
   }
-  void postOrderTraversal() { postOrderTraversal(this->root); }
   void postOrderTraversal(Nodo<T> *tree) {
     if (!tree) {
       throw std::runtime_error("está vacio");
@@ -67,7 +55,6 @@ public:
     }
     std::cout << tree->getDato() << " ";
   }
-  void levelTraversal() { levelTraversal(this->root); }
   void levelTraversal(Nodo<T> *tree) {
     if (!tree) {
       return;
@@ -86,4 +73,19 @@ public:
       }
     }
   }
+
+public:
+  Tree(T dato) {
+    Nodo<T> *nodo = new Nodo<T>(dato);
+    this->root = nodo;
+  }
+  Tree(Nodo<T> *nodo = nullptr) { this->root = nodo; }
+
+  int height() { return height(this->root); }
+  int size() { return size(this->root); }
+  
+  void inOrderTraversal() { inOrderTraversal(this->root); }
+  void preOrderTraversal() { preOrderTraversal(this->root); }
+  void postOrderTraversal() { postOrderTraversal(this->root); }
+  void levelTraversal() { levelTraversal(this->root); }
 };

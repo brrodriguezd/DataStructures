@@ -4,6 +4,26 @@
 
 template <class T> class AVL : public BST<T> {
 protected:
+  void RebalanceRight(Nodo<T> *nodo) {
+    auto subn = nodo->getLeft();
+    if ((subn->getRight() ? subn->getRight()->getHeight() : 0) >
+        (subn->getLeft() ? subn->getLeft()->getHeight() : 0)) {
+      BST<T>::RotateLeft(subn);
+      subn->setHeight(Tree<T>::height(subn));
+    }
+    BST<T>::RotateRight(nodo);
+    nodo->setHeight(Tree<T>::height(nodo));
+  }
+  void RebalanceLeft(Nodo<T> *nodo) {
+    auto subn = nodo->getRight();
+    if ((subn->getLeft() ? subn->getLeft()->getHeight() : 0) >
+        (subn->getRight() ? subn->getRight()->getHeight() : 0)) {
+      BST<T>::RotateRight(subn);
+      subn->setHeight(Tree<T>::height(subn));
+    }
+    BST<T>::RotateLeft(nodo);
+    nodo->setHeight(Tree<T>::height(nodo));
+  }
 public:
   void Insert(T dato) {
     BST<T>::Insert(dato, this->root);
@@ -28,26 +48,6 @@ public:
     if (parent) {
       Rebalance(parent);
     }
-  }
-  void RebalanceRight(Nodo<T> *nodo) {
-    auto subn = nodo->getLeft();
-    if ((subn->getRight() ? subn->getRight()->getHeight() : 0) >
-        (subn->getLeft() ? subn->getLeft()->getHeight() : 0)) {
-      BST<T>::RotateLeft(subn);
-      subn->setHeight(Tree<T>::height(subn));
-    }
-    BST<T>::RotateRight(nodo);
-    nodo->setHeight(Tree<T>::height(nodo));
-  }
-  void RebalanceLeft(Nodo<T> *nodo) {
-    auto subn = nodo->getRight();
-    if ((subn->getLeft() ? subn->getLeft()->getHeight() : 0) >
-        (subn->getRight() ? subn->getRight()->getHeight() : 0)) {
-      BST<T>::RotateRight(subn);
-      subn->setHeight(Tree<T>::height(subn));
-    }
-    BST<T>::RotateLeft(nodo);
-    nodo->setHeight(Tree<T>::height(nodo));
   }
   void Delete(Nodo<T> *nodo) {
     if (!nodo->getRight()) {

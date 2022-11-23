@@ -3,9 +3,6 @@
 
 template <class T> class BST : public Tree<T> {
 protected:
-public:
-  BST(Nodo<T> *nodo = nullptr) : Tree<T>{nodo} {}
-  Nodo<T> *Find(T dato) { return Find(dato, this->root); }
   Nodo<T> *Find(T dato, Nodo<T> *root) {
     if (!root) {
       throw std::runtime_error("está vacia");
@@ -27,18 +24,6 @@ public:
       }
     }
   }
-
-  Nodo<T> *Next(Nodo<T> *nodo) {
-    if (nodo->getRight()) {
-      return LeftDescendant(nodo->getRight());
-    } else {
-      return RightAncestor(nodo);
-    }
-  }
-  // LinkedList -> Devuelve con el orden invertido
-  LinkedListTail<Nodo<T> *> RangeSearch(T x, T y) {
-    return RangeSearch(x, y, this->root);
-  }
   LinkedListTail<Nodo<T> *> RangeSearch(T x, T y, Nodo<T> *root) {
     if (!root) {
       throw std::runtime_error("está vacia");
@@ -57,8 +42,6 @@ public:
     }
     return lista;
   }
-
-  void Insert(T dato) { return Insert(dato, this->root); }
   void Insert(T dato, Nodo<T> *root) {
     Nodo<T> *insertar = new Nodo<T>(dato);
     if (!root) {
@@ -74,29 +57,6 @@ public:
     }
   }
 
-  void Delete(Nodo<T> *nodo) {
-    if (!nodo->getRight()) {
-      if (nodo->getLeft()) {
-        nodo->getLeft()->setParent(nodo->getParent());
-        *nodo = *(nodo->getLeft());
-        return;
-      }
-      nodo->getParent()->getRight() == nodo
-          ? nodo->getParent()->setRight(nullptr)
-          : nodo->getParent()->setLeft(nullptr);
-      return;
-    }
-    Nodo<T> *desc = Next(nodo);
-    nodo->setDato(desc->getDato());
-    if (desc->getRight()) {
-      *desc = *(desc->getRight());
-    } else {
-      desc->getParent()->getRight() == desc
-          ? desc->getParent()->setRight(nullptr)
-          : desc->getParent()->setLeft(nullptr);
-    }
-  }
-
   Nodo<T> *RightAncestor(Nodo<T> *nodo) {
     if (nodo->getParent()) {
       if (nodo->getDato() < nodo->getParent()->getDato()) {
@@ -109,7 +69,7 @@ public:
   Nodo<T> *LeftAncestor(Nodo<T> *nodo) {
     if (nodo->getParent()) {
       if (nodo->getDato() > nodo->getParent()->getDato()) {
-        return nodo;
+        return nodo->getParent();
       }
       return LeftAncestor(nodo->getParent());
     }
@@ -127,7 +87,7 @@ public:
     }
     return nodo;
   }
-  void RotateLeft() { return RotateLeft(this->root); }
+
   void RotateLeft(Nodo<T> *nodo) {
     auto parent = nodo->getParent();
     auto nodo2 = nodo->getRight();
@@ -152,7 +112,6 @@ public:
     }
     nodo->setRight(peso);
   }
-  void RotateRight() { return RotateRight(this->root); }
   void RotateRight(Nodo<T> *nodo) {
     auto parent = nodo->getParent();
     auto nodo2 = nodo->getLeft();
@@ -177,4 +136,53 @@ public:
     }
     nodo->setLeft(peso);
   }
+
+public:
+  BST(Nodo<T> *nodo = nullptr) : Tree<T>{nodo} {}
+  Nodo<T> *Find(T dato) { return Find(dato, this->root); }
+  Nodo<T> *Next(Nodo<T> *nodo) {
+    if (nodo->getRight()) {
+      return LeftDescendant(nodo->getRight());
+    } else {
+      return RightAncestor(nodo);
+    }
+  }
+  Nodo<T> *Prev(Nodo<T> *nodo) {
+    if (nodo->getLeft()) {
+      return RightDescendant(nodo->getLeft());
+    } else {
+      return LeftAncestor(nodo);
+    }
+  }
+  // LinkedList -> Devuelve con el orden invertido
+  LinkedListTail<Nodo<T> *> RangeSearch(T x, T y) {
+    return RangeSearch(x, y, this->root);
+  }
+
+  void Insert(T dato) { return Insert(dato, this->root); }
+  void Delete(Nodo<T> *nodo) {
+    if (!nodo->getRight()) {
+      if (nodo->getLeft()) {
+        nodo->getLeft()->setParent(nodo->getParent());
+        *nodo = *(nodo->getLeft());
+        return;
+      }
+      nodo->getParent()->getRight() == nodo
+          ? nodo->getParent()->setRight(nullptr)
+          : nodo->getParent()->setLeft(nullptr);
+      return;
+    }
+    Nodo<T> *desc = Next(nodo);
+    nodo->setDato(desc->getDato());
+    if (desc->getRight()) {
+      *desc = *(desc->getRight());
+    } else {
+      desc->getParent()->getRight() == desc
+          ? desc->getParent()->setRight(nullptr)
+          : desc->getParent()->setLeft(nullptr);
+    }
+  }
+
+  void RotateLeft() { return RotateLeft(this->root); }
+  void RotateRight() { return RotateRight(this->root); }
 };
