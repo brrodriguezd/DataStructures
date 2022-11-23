@@ -5,7 +5,7 @@
 template <class T> class AVL : public BST<T> {
 protected:
 public:
-  void AVLinsert(T dato) {
+  void Insert(T dato) {
     BST<T>::Insert(dato, this->root);
     Nodo<T> *nodo = BST<T>::Find(dato);
     Rebalance(nodo);
@@ -28,7 +28,6 @@ public:
     if (parent) {
       Rebalance(parent);
     }
-    // std::cout << nodo->getDato() << ": " << nodo->getHeight() << ". ";
   }
   void RebalanceRight(Nodo<T> *nodo) {
     auto subn = nodo->getLeft();
@@ -50,7 +49,7 @@ public:
     BST<T>::RotateLeft(nodo);
     nodo->setHeight(Tree<T>::height(nodo));
   }
-  void AVLdelete(Nodo<T> *nodo) {
+  void Delete(Nodo<T> *nodo) {
     if (!nodo->getRight()) {
       if (nodo->getLeft()) {
         nodo->getLeft()->setParent(nodo->getParent());
@@ -58,8 +57,9 @@ public:
         Rebalance(nodo->getParent());
         return;
       }
-      nodo->getParent()->getRight() == nodo ? nodo->getParent()->setRight(nullptr)
-                                            : nodo->getParent()->setLeft(nullptr);
+      nodo->getParent()->getRight() == nodo
+          ? nodo->getParent()->setRight(nullptr)
+          : nodo->getParent()->setLeft(nullptr);
       Rebalance(nodo->getParent());
       return;
     }
