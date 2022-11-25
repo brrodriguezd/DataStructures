@@ -92,12 +92,8 @@ public:
     }
     throw std::runtime_error("No existe el dato");
   }
-  bool Empty() {
-    if (!this->head) {
-      return true;
-    }
-    return false;
-  }
+  bool Empty() { return !this->head; }
+  
   void Display() {
     if (this->head) {
       Nodo<T> *recorrer = this->head;

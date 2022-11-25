@@ -62,12 +62,7 @@ public:
     }
     this->size = save;
   }
-  bool empty() {
-    if (this->size == 0) {
-      return true;
-    }
-    return false;
-  }
+  bool empty() { return this->size == 0; }
   void Insert(T dato) {
     if (this->size == this->maxSize) {
       throw std::runtime_error("Lleno");

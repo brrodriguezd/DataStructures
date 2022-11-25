@@ -83,7 +83,7 @@ public:
 
   int height() { return height(this->root); }
   int size() { return size(this->root); }
-  
+
   void inOrderTraversal() { inOrderTraversal(this->root); }
   void preOrderTraversal() { preOrderTraversal(this->root); }
   void postOrderTraversal() { postOrderTraversal(this->root); }

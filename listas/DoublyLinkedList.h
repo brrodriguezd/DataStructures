@@ -101,12 +101,8 @@ public:
     }
     throw std::runtime_error("No se encontro el dato");
   }
-  bool Empty() {
-    if (!this->head) {
-      return true;
-    }
-    return false;
-  }
+  bool Empty() { return !this->head; }
+  
   void AddBefore(Nodo<T> *nodo, T dato) {
     Nodo<T> *data = new Nodo<T>(dato);
     if (nodo->getPrev()) {

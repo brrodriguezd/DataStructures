@@ -1,3 +1,5 @@
+.vscode/
 Dijkstra
 a.out
+rust/target/
 .gitignore

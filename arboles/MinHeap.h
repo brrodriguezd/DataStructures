@@ -53,21 +53,16 @@ public:
   }
   void HeapSort() {
     auto save = this->size;
-    while(this->size > 1) {
+    while (this->size > 1) {
       T temp = this->heap[0];
       this->heap[0] = this->heap[this->size - 1];
       this->heap[this->size - 1] = temp;
       this->size -= 1;
       SiftDown(1);
     }
-    this->size=save;
+    this->size = save;
   }
-  bool Empty() { 
-    if (this->size == 0) {
-      return true;
-    }
-    return false;
-  }
+  bool Empty() { return this->size == 0; }
   void Insert(T dato) {
     if (this->size == this->maxSize) {
       throw std::runtime_error("Lleno");

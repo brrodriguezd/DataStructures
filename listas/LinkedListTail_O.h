@@ -103,12 +103,7 @@ public:
     }
     throw std::runtime_error("no se encontro el dato");
   }
-  bool Empty() {
-    if (!this->head) {
-      return true;
-    }
-    return false;
-  }
+  bool Empty() { return !this->head; }
 
   void Display() {
     if (this->head) {

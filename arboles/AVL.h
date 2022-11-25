@@ -24,6 +24,7 @@ protected:
     BST<T>::RotateLeft(nodo);
     nodo->setHeight(Tree<T>::height(nodo));
   }
+
 public:
   void Insert(T dato) {
     BST<T>::Insert(dato, this->root);
